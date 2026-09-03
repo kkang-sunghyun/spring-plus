@@ -1,0 +1,69 @@
+### 1. [검색 1] 조건 없는 전체 목록 조회
+GET http://localhost:8080/todos?page=1&size=10
+Authorization: {{auth_token}}
+
+> {%
+    client.log("\n=======================================================");
+    client.log("📋 [테스트 1]: 조건 없는 전체 목록 조회");
+    client.log("📊 [결과 개수]: 총 " + response.body.content.length + "건");
+    response.body.content.forEach(function(todo, idx) {
+        client.log("  " + (idx + 1) + ". ID: " + todo.id + " | 제목: [" + todo.title + "] | 날씨: " + todo.weather + " | 수정일: " + todo.modifiedAt);
+    });
+    client.log("=======================================================\n");
+%}
+
+### 2. [검색 2] 날씨 조건으로만 검색 (Sunny)
+GET http://localhost:8080/todos?page=1&size=10&weather=Sunny
+Authorization: {{auth_token}}
+
+> {%
+    client.log("\n=======================================================");
+    client.log("☀️ [테스트 2]: 날씨 단독 검색 (weather=Sunny)");
+    client.log("📊 [결과 개수]: 총 " + response.body.content.length + "건");
+    response.body.content.forEach(function(todo, idx) {
+        client.log("  " + (idx + 1) + ". 제목: [" + todo.title + "] | 날씨: " + todo.weather);
+    });
+    client.log("=======================================================\n");
+%}
+
+### 3. [검색 3] 기간 조건으로만 검색 (startDate & endDate)
+GET http://localhost:8080/todos?page=1&size=10&startDate=2026-09-01&endDate=2026-09-30
+Authorization: {{auth_token}}
+
+> {%
+    client.log("\n=======================================================");
+    client.log("📅 [테스트 3]: 기간 검색 (2026-09-01 ~ 2026-09-30)");
+    client.log("📊 [결과 개수]: 총 " + response.body.content.length + "건");
+    response.body.content.forEach(function(todo, idx) {
+        client.log("  " + (idx + 1) + ". 제목: [" + todo.title + "] | 수정일: " + todo.modifiedAt);
+    });
+    client.log("=======================================================\n");
+%}
+
+### 4. [검색 4] 시작일만 입력해서 검색 (startDate)
+GET http://localhost:8080/todos?page=1&size=10&startDate=2026-09-01
+Authorization: {{auth_token}}
+
+> {%
+    client.log("\n=======================================================");
+    client.log("⏩ [테스트 4]: 시작일 단독 검색 (2026-09-01 이후 수정건)");
+    client.log("📊 [결과 개수]: 총 " + response.body.content.length + "건");
+    response.body.content.forEach(function(todo, idx) {
+        client.log("  " + (idx + 1) + ". 제목: [" + todo.title + "] | 수정일: " + todo.modifiedAt);
+    });
+    client.log("=======================================================\n");
+%}
+
+### 5. [검색 5] 날씨 + 기간 복합 조건 검색
+GET http://localhost:8080/todos?page=1&size=10&weather=Sunny&startDate=2026-09-01&endDate=2026-09-30
+Authorization: {{auth_token}}
+
+> {%
+    client.log("\n=======================================================");
+    client.log("🎯 [테스트 5]: 복합 조건 검색 (날씨=Sunny AND 2026-09-01 ~ 2026-09-30)");
+    client.log("📊 [결과 개수]: 총 " + response.body.content.length + "건");
+    response.body.content.forEach(function(todo, idx) {
+        client.log("  " + (idx + 1) + ". 제목: [" + todo.title + "] | 날씨: " + todo.weather + " | 수정일: " + todo.modifiedAt);
+    });
+    client.log("=======================================================\n");
+%}

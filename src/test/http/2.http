@@ -3,8 +3,12 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "email": "user1@example.com",
+  "email": "test1@example.com",
   "password": "Password123!",
   "userRole": "USER",
   "nickname": "테스트코딩"
 }
+
+> {%
+    client.global.set("auth_token", response.body.bearerToken);
+%}
