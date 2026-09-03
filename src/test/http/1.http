@@ -1,0 +1,23 @@
+### 1. 회원가입 (응답 토큰을 자동으로 auth_token 변수에 저장)
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "Password123!",
+  "userRole": "USER"
+}
+
+> {%
+    client.global.set("auth_token", response.body.bearerToken);
+%}
+
+### 2. 할 일 등록 (저장된 auth_token 자동 사용)
+POST http://localhost:8080/todos
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "title": "테스트",
+  "contents": "내용"
+}
