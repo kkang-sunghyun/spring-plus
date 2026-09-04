@@ -16,12 +16,6 @@
 | ORM         | Spring Data JPA, QueryDSL |
 | 인증          | JWT + Spring Security     |
 
-### 실행
-
-```bash
-./gradlew bootRun
-```
-
 ---
 
 ## 🗂️ ERD
