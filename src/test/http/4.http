@@ -1,0 +1,26 @@
+### 1. 관리자(ADMIN) 회원가입 및 토큰 변수 저장
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "email": "admin_test@example.com",
+  "password": "Password123!",
+  "userRole": "ADMIN",
+  "nickname": "관리자"
+}
+
+> {%
+    // 응답받은 ADMIN 토큰을 변수에 자동 저장
+    client.global.set("auth_token", response.body.bearerToken);
+    client.log(" [ADMIN 토큰 발급 완료] 권한: ADMIN");
+%}
+
+### 2. 관리자 API 호출 (AOP 로그 테스트 대상)
+
+PATCH http://localhost:8080/admin/users/1002
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "role": "ADMIN"
+}
