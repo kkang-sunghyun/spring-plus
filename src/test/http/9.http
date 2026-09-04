@@ -1,0 +1,57 @@
+### 1. 일반 유저(USER) 계정 생성 및 토큰 발급
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "Password123!",
+  "userRole": "USER",
+  "nickname": "일반유저"
+}
+
+> {%
+    client.global.set("user_token", response.body.bearerToken);
+    client.log(" [USER 토큰 발급 완료]");
+%}
+
+### 2. 관리자(ADMIN) 계정 생성 및 토큰 발급
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "email": "admintest1@example.com",
+  "password": "Password123!",
+  "userRole": "ADMIN",
+  "nickname": "관리자"
+}
+
+> {%
+    client.global.set("admin_token", response.body.bearerToken);
+    client.log(" [ADMIN 토큰 발급 완료]");
+%}
+
+### 3. [인가 실패 검증] 일반 유저가 관리자 API 접근 시 -> 403 Forbidden 확인
+PATCH http://localhost:8080/admin/users/1
+Content-Type: application/json
+Authorization: {{user_token}}
+
+{
+  "role": "USER"
+}
+
+> {%
+    client.log("🛑 응답 코드: " + response.status + " (403 성공)");
+%}
+
+### 4. [인가 성공 검증] 관리자가 관리자 API 접근 시 -> 통과 확인
+PATCH http://localhost:8080/admin/users/1
+Content-Type: application/json
+Authorization: {{admin_token}}
+
+{
+  "role": "USER"
+}
+
+> {%
+    client.log("✅ 응답 코드: " + response.status + " (200 또는 서비스 예외)");
+%}

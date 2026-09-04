@@ -3,7 +3,7 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "email": "admin_test@example.com",
+  "email": "admintest@example.com",
   "password": "Password123!",
   "userRole": "ADMIN",
   "nickname": "관리자"
