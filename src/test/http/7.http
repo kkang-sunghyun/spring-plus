@@ -1,0 +1,26 @@
+### 1. 테스트용 댓글 등록 (할 일 1번에 댓글 작성)
+POST http://localhost:8080/todos/1/comments
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "contents": "N+1 해결 확인용 댓글."
+}
+
+> {%
+    client.log(" [댓글 등록 완료] ID: " + response.body.id);
+%}
+
+### 2. 댓글 목록 조회 (N+1 해결 검증)
+GET http://localhost:8080/todos/1/comments
+Authorization: {{auth_token}}
+
+> {%
+    client.log("\n=======================================================");
+    client.log(" [댓글 목록 조회 결과]");
+    client.log(" 댓글 수: " + response.body.length + "개");
+    response.body.forEach(function(comment, idx) {
+        client.log("  " + (idx + 1) + ". 댓글: " + comment.contents + " | 작성자: " + comment.user.email);
+    });
+    client.log("=======================================================\n");
+%}
