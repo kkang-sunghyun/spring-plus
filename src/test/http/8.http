@@ -1,0 +1,12 @@
+### 1. 할 일 단건 조회 (QueryDSL 동작 검증)
+GET http://localhost:8080/todos/1
+Authorization: {{auth_token}}
+
+> {%
+    client.log("\n=======================================================");
+    client.log(" [QueryDSL 단건 조회 성공]");
+    client.log(" 할 일 ID: " + response.body.id);
+    client.log(" 제목: [" + response.body.title + "] | 날씨: " + response.body.weather);
+    client.log(" 작성자: " + response.body.user.email);
+    client.log("=======================================================\n");
+%}
