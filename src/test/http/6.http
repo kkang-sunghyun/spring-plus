@@ -1,0 +1,22 @@
+### 1. 할 일 등록 (Cascade 확인)
+POST http://localhost:8080/todos
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "title": "Cascade 테스트",
+  "contents": "내용"
+}
+
+> {%
+    client.log(" [Todo 등록 성공] ID: " + response.body.id);
+    client.global.set("created_todo_id", response.body.id);
+%}
+
+### 2. 등록된 담당자 조회
+GET http://localhost:8080/todos/{{created_todo_id}}/managers
+Authorization: {{auth_token}}
+
+> {%
+    client.log(" [담당자 수]: " + response.body.length + "명");
+%}
