@@ -1,5 +1,4 @@
 # SPRING PLUS
-# 🚀 SPRING PLUS
 
 일정 관리 API 과제입니다.
 
